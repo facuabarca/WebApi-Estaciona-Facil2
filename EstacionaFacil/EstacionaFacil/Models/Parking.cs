@@ -50,17 +50,17 @@ namespace EstacionaFacil.Models
         public long Usu_Id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Calificacion_Parking> Calificacion_Parking { get; set; }
+        public ICollection<Calificacion_Parking> Calificacion_Parking { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Estacionamiento_Parking> Estacionamiento_Parking { get; set; }
+        public ICollection<Estacionamiento_Parking> Estacionamiento_Parking { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Opinion_Parking> Opinion_Parking { get; set; }
+        public ICollection<Opinion_Parking> Opinion_Parking { get; set; }
 
-        public virtual Usuario Usuario { get; set; }
+        public Usuario Usuario { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Reserva> Reserva { get; set; }
+        public ICollection<Reserva> Reserva { get; set; }
     }
 }

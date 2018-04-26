@@ -27,45 +27,46 @@ namespace EstacionaFacil.Controllers
 
         // GET: api/Usuarios/5
         [HttpGet]
-        public IHttpActionResult  Login(string username, string password)
+        public IHttpActionResult Login(string username, string password)
         {
             var usuario = db.Usuario.Where( x => x.Usu_Email.Contains(username) && x.Usu_Contrasena.Contains(password)).ToList();
             Usuario usu = new Usuario() ;
+            var response = new Response();
             if (usuario.Count() == 0)
             {
-                return NotFound();
+                return Ok(new Response { HttpStatus = 401, Body = null });
             }
             else
             {
                 usu = usuario[0];
             }
-           
-            return Ok(usu);
+            return Ok(new Response { HttpStatus = 200, Body = usu });
         }
 
         // GET: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
-        public async Task<IHttpActionResult> GetUsuario(long id)
+
+        [HttpGet]
+        public IHttpActionResult GetUsuario(long id)
         {
-            Usuario usuario = await db.Usuario.FindAsync(id);
+            Usuario usuario =  db.Usuario.Find(id);
             if (usuario == null)
             {
-                return NotFound();
+                return Ok(new Response { HttpStatus = 202, Body = null });
             }
-            
-            return Ok(usuario);
+
+            return Ok(new Response { HttpStatus = 200, Body = usuario });
         }
 
         // PUT: api/Usuarios/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutUsuario(long id, Usuario usuario)
+        [HttpPut]
+        public async Task<IHttpActionResult> PutUsuario(Usuario usuario)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != usuario.Usu_Id)
+            if (usuario.Usu_Id != usuario.Usu_Id)
             {
                 return BadRequest();
             }
@@ -78,7 +79,7 @@ namespace EstacionaFacil.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsuarioExists(id))
+                if (!UsuarioExists(usuario.Usu_Id))
                 {
                     return NotFound();
                 }
@@ -88,7 +89,9 @@ namespace EstacionaFacil.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            Usuario user = db.Usuario.Find(usuario.Usu_Id);
+
+            return Ok(new Response { HttpStatus = 200, Body = user });
         }
 
         // POST: api/Usuarios
@@ -135,6 +138,12 @@ namespace EstacionaFacil.Controllers
         private bool UsuarioExists(long id)
         {
             return db.Usuario.Count(e => e.Usu_Id == id) > 0;
+        }
+
+        public class Response
+        {
+            public int HttpStatus;
+            public Usuario Body;
         }
     }
 }
