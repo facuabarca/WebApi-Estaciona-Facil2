@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Script.Serialization;
 using EstacionaFacil.Models;
 
 namespace EstacionaFacil.Controllers
@@ -23,6 +24,25 @@ namespace EstacionaFacil.Controllers
             return db.Usuario;
         }
 
+
+        // GET: api/Usuarios/5
+        [HttpGet]
+        public IHttpActionResult  Login(string username, string password)
+        {
+            var usuario = db.Usuario.Where( x => x.Usu_Email.Contains(username) && x.Usu_Contrasena.Contains(password)).ToList();
+            Usuario usu = new Usuario() ;
+            if (usuario.Count() == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                usu = usuario[0];
+            }
+           
+            return Ok(usu);
+        }
+
         // GET: api/Usuarios/5
         [ResponseType(typeof(Usuario))]
         public async Task<IHttpActionResult> GetUsuario(long id)
@@ -32,7 +52,7 @@ namespace EstacionaFacil.Controllers
             {
                 return NotFound();
             }
-
+            
             return Ok(usuario);
         }
 

@@ -57,17 +57,17 @@ namespace EstacionaFacil.Models
         public string Usu_Contrasena { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Calificacion_Parking> Calificacion_Parking { get; set; }
+        public ICollection<Calificacion_Parking> Calificacion_Parking { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Opinion_Parking> Opinion_Parking { get; set; }
+        public ICollection<Opinion_Parking> Opinion_Parking { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Parking> Parking { get; set; }
+        public ICollection<Parking> Parking { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Reserva> Reserva { get; set; }
+        public ICollection<Reserva> Reserva { get; set; }
 
-        public virtual Tipo_Usuario Tipo_Usuario { get; set; }
+        public Tipo_Usuario Tipo_Usuario { get; set; }
     }
 }
