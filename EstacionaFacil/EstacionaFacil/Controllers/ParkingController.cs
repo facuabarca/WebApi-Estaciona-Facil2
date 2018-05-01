@@ -30,14 +30,14 @@ namespace EstacionaFacil.Controllers
         public IHttpActionResult GetParking(long usuId)
         {
             var park = db.Parking.Where(x => x.Usu_Id == usuId).ToList();
-
-            Parking parking = park[0];
-
-            if (parking == null)
+            Parking parking;
+            if (park.Count() == 0)
             {
-                return Ok(new Response { HttpStatus = 401, Body = null });
+                return Ok(new Response { HttpStatus = 204, Body = null });
             }
-
+            else {
+                parking = park[0];
+            }
             return Ok(new Response { HttpStatus = 200, Body = parking });
         }
 
@@ -82,13 +82,13 @@ namespace EstacionaFacil.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Ok(new Response { HttpStatus = 400, Body = null });
             }
 
             db.Parking.Add(parking);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = parking.Par_Id }, parking);
+            return Ok(new Response { HttpStatus = 200, Body = parking });
         }
 
         // DELETE: api/Parking/5
