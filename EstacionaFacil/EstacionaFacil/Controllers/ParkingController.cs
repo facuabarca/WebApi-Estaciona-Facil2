@@ -18,7 +18,7 @@ namespace EstacionaFacil.Controllers
         private EstacionaFacilModel db = new EstacionaFacilModel();
 
         // GET: api/Parking
-        public IQueryable<Parking> GetParking()
+        public IQueryable<Parking> GetParkings()
         {
             return db.Parking;
         }
@@ -43,14 +43,14 @@ namespace EstacionaFacil.Controllers
 
         // PUT: api/Parking/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutParking(long id, Parking parking)
+        public async Task<IHttpActionResult> PutParking(Parking parking)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != parking.Par_Id)
+            if (parking.Par_Id != parking.Par_Id)
             {
                 return BadRequest();
             }
@@ -63,7 +63,7 @@ namespace EstacionaFacil.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ParkingExists(id))
+                if (!ParkingExists(parking.Par_Id))
                 {
                     return NotFound();
                 }
@@ -73,7 +73,9 @@ namespace EstacionaFacil.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            Parking park = db.Parking.Find(parking.Par_Id);
+
+            return Ok(new Response { HttpStatus = 200, Body = park });
         }
 
         // POST: api/Parking

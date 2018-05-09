@@ -148,6 +148,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\EstacionamientoParkingController.cs" />
     <Compile Include="Controllers\ParkingController.cs" />
     <Compile Include="Controllers\UsuarioPruebaController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />

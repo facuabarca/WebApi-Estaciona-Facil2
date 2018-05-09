@@ -21,6 +21,6 @@ namespace EstacionaFacil.Models
 
         public bool Est_Estado { get; set; }
 
-        public virtual Parking Parking { get; set; }
+        public Parking Parking { get; set; }
     }
 }
