@@ -103,6 +103,24 @@ namespace EstacionaFacil.Controllers
                 return NotFound();
             }
 
+            Calificacion_Parking cal = db.Calificacion_Parking.Where(x => x.Park_Id == id).ToList().FirstOrDefault();
+            if (cal != null)
+            {
+                db.Calificacion_Parking.Remove(cal);
+            }
+
+            Opinion_Parking op = db.Opinion_Parking.Where(x => x.Par_Id == id).ToList().FirstOrDefault();
+            if (op != null)
+            {
+                db.Opinion_Parking.Remove(op);
+            }
+
+            Reserva res = db.Reserva.Where(x => x.Park_Id == id).ToList().FirstOrDefault();
+            if (res != null)
+            {
+                db.Reserva.Remove(res);
+            }
+            
             db.Parking.Remove(parking);
             await db.SaveChangesAsync();
 
