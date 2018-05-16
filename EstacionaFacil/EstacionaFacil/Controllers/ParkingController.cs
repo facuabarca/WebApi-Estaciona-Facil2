@@ -102,6 +102,12 @@ namespace EstacionaFacil.Controllers
             {
                 return NotFound();
             }
+              
+            Estacionamiento_Parking est = db.Estacionamiento_Parking.Where(x => x.Park_Id == id).ToList().FirstOrDefault();
+            if (est != null)
+            {
+                db.Estacionamiento_Parking.Remove(est);
+            }
 
             Calificacion_Parking cal = db.Calificacion_Parking.Where(x => x.Park_Id == id).ToList().FirstOrDefault();
             if (cal != null)
@@ -120,11 +126,19 @@ namespace EstacionaFacil.Controllers
             {
                 db.Reserva.Remove(res);
             }
-            
-            db.Parking.Remove(parking);
-            await db.SaveChangesAsync();
 
-            return Ok(parking);
+            try
+            {
+                db.Parking.Remove(parking);
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return Ok(new Response { HttpStatus = 200, Body = parking });
         }
 
         protected override void Dispose(bool disposing)
