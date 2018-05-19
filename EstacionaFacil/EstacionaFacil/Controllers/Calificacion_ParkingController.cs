@@ -24,16 +24,18 @@ namespace EstacionaFacil.Controllers
         }
 
         // GET: api/Calificacion_Parking/5
-        [ResponseType(typeof(Calificacion_Parking))]
-        public async Task<IHttpActionResult> GetCalificacion_Parking(long id)
+       [HttpGet]
+        public IHttpActionResult GetCalificacion_Parking(long usuId)
         {
-            Calificacion_Parking calificacion_Parking = await db.Calificacion_Parking.FindAsync(id);
-            if (calificacion_Parking == null)
+            var calificacion_parking = db.Calificacion_Parking.Where(x => x.Usu_Id == usuId).ToList().FirstOrDefault();
+            if (calificacion_parking == null)
             {
-                return NotFound();
+                return Ok(new Response { HttpStatus = 204, Body = null });
             }
-
-            return Ok(calificacion_Parking);
+            else
+            {
+                return Ok(new Response { HttpStatus = 200, Body = calificacion_parking });
+            }
         }
 
         // PUT: api/Calificacion_Parking/5

@@ -164,6 +164,8 @@
     <Compile Include="Models\Reserva.cs" />
     <Compile Include="Models\Tipo_Usuario.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Model\Calificacion_Parking.cs" />
+    <Compile Include="Model\Parking_Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

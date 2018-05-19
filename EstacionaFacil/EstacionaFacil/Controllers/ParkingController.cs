@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using EstacionaFacil.Models;
+//using EstacionaFacil.Model;
 
 namespace EstacionaFacil.Controllers
 {
@@ -18,9 +19,19 @@ namespace EstacionaFacil.Controllers
         private EstacionaFacilModel db = new EstacionaFacilModel();
 
         // GET: api/Parking
-        public IQueryable<Parking> GetParkings()
+        public IHttpActionResult GetParkings()
         {
-            return db.Parking;
+            List<Parking> parkings = db.Parking.ToList();
+
+            foreach (var item in parkings)
+            {
+                var calificacion = db.Calificacion_Parking.Where(x => x.Park_Id == item.Par_Id).ToList().FirstOrDefault();
+                if (calificacion != null) {
+                    item.Calificacion_Parking.Add(calificacion);
+                }
+                
+            }
+            return Ok(new ResponseList { HttpStatus = 200, Body = parkings });
         }
 
 
@@ -132,7 +143,7 @@ namespace EstacionaFacil.Controllers
                 db.Parking.Remove(parking);
                 await db.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
@@ -158,6 +169,11 @@ namespace EstacionaFacil.Controllers
         {
             public int HttpStatus;
             public Parking Body;
+        }
+        public class ResponseList
+        {
+            public int HttpStatus;
+            public List<Parking> Body;
         }
     }
 }

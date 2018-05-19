@@ -12,7 +12,7 @@ namespace EstacionaFacil.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Parking()
         {
-            Calificacion_Parking = new HashSet<Calificacion_Parking>();
+            //Calificacion_Parking = new HashSet<Calificacion_Parking>();
             Estacionamiento_Parking = new HashSet<Estacionamiento_Parking>();
             Opinion_Parking = new HashSet<Opinion_Parking>();
             Reserva = new HashSet<Reserva>();
@@ -49,8 +49,8 @@ namespace EstacionaFacil.Models
 
         public long Usu_Id { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public ICollection<Calificacion_Parking> Calificacion_Parking { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public List<Calificacion_Parking> Calificacion_Parking { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public ICollection<Estacionamiento_Parking> Estacionamiento_Parking { get; set; }
