@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using EstacionaFacil.Models;
+using EstacionaFacil.Model;
 
 namespace EstacionaFacil.Controllers
 {
@@ -25,31 +26,31 @@ namespace EstacionaFacil.Controllers
 
         // GET: api/Calificacion_Parking/5
        [HttpGet]
-        public IHttpActionResult GetCalificacion_Parking(long usuId)
+        public IHttpActionResult GetCalificacion_Parking(long usuId, long park_id)
         {
-            var calificacion_parking = db.Calificacion_Parking.Where(x => x.Usu_Id == usuId).ToList().FirstOrDefault();
+            var calificacion_parking = db.Calificacion_Parking.Where(x => x.Usu_Id == usuId && x.Park_Id == park_id).ToList().FirstOrDefault();
             if (calificacion_parking == null)
             {
                 return Ok(new Response { HttpStatus = 204, Body = null });
             }
             else
             {
-                return Ok(new Response { HttpStatus = 200, Body = calificacion_parking });
+                Calificacion_Parking_Model cal = new Calificacion_Parking_Model();
+                cal.Cal_Id = calificacion_parking.Cal_Id;
+                cal.Cal_Calificacion = calificacion_parking.Cal_Calificacion;
+                cal.Park_Id = calificacion_parking.Park_Id;
+                cal.Usu_Id = calificacion_parking.Usu_Id;
+                return Ok(new ResponseGet { HttpStatus = 200, Body = cal });
             }
         }
 
         // PUT: api/Calificacion_Parking/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCalificacion_Parking(long id, Calificacion_Parking calificacion_Parking)
+        public async Task<IHttpActionResult> PutCalificacion_Parking(Calificacion_Parking calificacion_Parking)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            if (id != calificacion_Parking.Cal_Id)
-            {
-                return BadRequest();
             }
 
             db.Entry(calificacion_Parking).State = EntityState.Modified;
@@ -60,7 +61,7 @@ namespace EstacionaFacil.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!Calificacion_ParkingExists(id))
+                if (!Calificacion_ParkingExists(calificacion_Parking.Cal_Id))
                 {
                     return NotFound();
                 }
@@ -122,6 +123,12 @@ namespace EstacionaFacil.Controllers
         {
             public int HttpStatus;
             public Calificacion_Parking Body;
+        }
+
+        public class ResponseGet
+        {
+            public int HttpStatus;
+            public Calificacion_Parking_Model Body;
         }
     }
 

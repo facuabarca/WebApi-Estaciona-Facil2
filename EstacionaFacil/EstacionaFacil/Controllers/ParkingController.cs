@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using EstacionaFacil.Models;
-//using EstacionaFacil.Model;
+using EstacionaFacil.Model;
 
 namespace EstacionaFacil.Controllers
 {
@@ -22,16 +22,40 @@ namespace EstacionaFacil.Controllers
         public IHttpActionResult GetParkings()
         {
             List<Parking> parkings = db.Parking.ToList();
-
+            List<Parking_Model> listParking = new List<Parking_Model>();
             foreach (var item in parkings)
             {
-                var calificacion = db.Calificacion_Parking.Where(x => x.Park_Id == item.Par_Id).ToList().FirstOrDefault();
+                Parking_Model model = new Parking_Model();
+                model.Par_Id = item.Par_Id;
+                model.Par_Nombre = item.Par_Nombre;
+                model.Par_Latitud = item.Par_Latitud;
+                model.Par_Longitud = item.Par_Longitud;
+                model.Par_Calle = item.Par_Calle;
+                model.Par_Altura = item.Par_Altura;
+                model.Par_Telefono = item.Par_Telefono;
+                model.Par_Horario = item.Par_Horario;
+                model.Usu_Id = item.Usu_Id;
+                model.Calificacion_Parking = new List<Calificacion_Parking_Model>();
+                listParking.Add(model);
+            }
+
+            foreach (var item in listParking)
+            {
+                var calificacion = db.Calificacion_Parking.Where(x => x.Park_Id == item.Par_Id).ToList();
                 if (calificacion != null) {
-                    item.Calificacion_Parking.Add(calificacion);
+                    foreach (var x in calificacion)
+                    {
+                        Calificacion_Parking_Model model = new Calificacion_Parking_Model();
+                        model.Cal_Id = x.Cal_Id;
+                        model.Usu_Id = x.Usu_Id;
+                        model.Park_Id = x.Park_Id;
+                        model.Cal_Calificacion = x.Cal_Calificacion;
+                        item.Calificacion_Parking.Add(model);
+                    }
                 }
                 
             }
-            return Ok(new ResponseList { HttpStatus = 200, Body = parkings });
+            return Ok(new ResponseList { HttpStatus = 200, Body = listParking });
         }
 
 
@@ -173,7 +197,7 @@ namespace EstacionaFacil.Controllers
         public class ResponseList
         {
             public int HttpStatus;
-            public List<Parking> Body;
+            public List<Parking_Model> Body;
         }
     }
 }

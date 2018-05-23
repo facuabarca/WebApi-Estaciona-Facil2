@@ -17,6 +17,6 @@ namespace EstacionaFacil.Model
         public string Par_Horario { get; set; }
         public long Usu_Id { get; set; }
 
-        public List<Calificacion_Parking> Calificacion_Parking { get; set; }
+        public List<Calificacion_Parking_Model> Calificacion_Parking { get; set; }
     }
 }
